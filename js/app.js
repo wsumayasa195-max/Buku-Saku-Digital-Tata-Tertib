@@ -31,7 +31,19 @@
   /* ---------- layar khusus ---------- */
   function kotakPesan(ikon, judul, html) { return '<div class="login"><div class="login-card" style="max-width:560px"><div class="logo">' + ic(ikon) + '</div><h1>' + esc(judul) + '</h1><div style="margin-top:14px;line-height:22px">' + html + '</div></div></div>'; }
   function showSetup() {
-    root().innerHTML = kotakPesan('gear', 'Aplikasi belum dihubungkan', '<p>Berkas <code>js/config.js</code> masih berisi nilai contoh. Isi <code>GAS_URL</code> dengan alamat Web App Apps Script Anda (berakhiran <code>/exec</code>), simpan, lalu unggah ulang ke GitHub.</p><p class="muted" style="margin-top:10px">Langkah lengkap ada di <b>PANDUAN-INSTALASI.md</b>, Bagian 2 dan Bagian 4.</p>');
+    const r = API.alasan(), u = (window.APP_CONFIG && window.APP_CONFIG.GAS_URL) || '';
+    const contoh = '<pre class="code">window.APP_CONFIG = {\n  GAS_URL: \'https://script.google.com/macros/s/AKfycb…/exec\'\n};</pre>';
+    const sebab = {
+      'tidak-terbaca': '<p><b>Berkas <code>js/config.js</code> tidak terbaca atau isinya rusak.</b> Isinya harus persis berbentuk:</p>' + contoh + '<p class="muted" style="margin-top:8px">Penyebab umum: hanya alamatnya yang ditempel tanpa <code>window.APP_CONFIG = …</code>, atau tanda kutip/kurung hilang.</p>',
+      'contoh': '<p>Berkas <code>js/config.js</code> di situs ini <b>masih berisi nilai contoh</b>. Isi <code>GAS_URL</code> dengan alamat Web App Apps Script Anda (berakhiran <code>/exec</code>), simpan, lalu kirim ulang ke GitHub.</p>',
+      'bukan-https': '<p>Alamat yang terbaca: <code>' + esc(u) + '</code></p><p>Alamat harus diawali <code>https://script.google.com/</code>.</p>',
+      'dev': '<p>Alamat yang terbaca: <code>' + esc(u) + '</code></p><p>Alamat berakhiran <code>/dev</code> adalah <b>versi uji</b> dan hanya bisa dibuka pemilik skrip. Pakai alamat berakhiran <code>/exec</code> dari <b>Deploy → Deployment baru → Aplikasi web</b>.</p>',
+      'bukan-exec': '<p>Alamat yang terbaca: <code>' + esc(u) + '</code></p><p>Alamat harus berakhiran <code>/exec</code>. Salin <b>URL Aplikasi web</b> dari jendela hasil Deploy.</p>',
+      'format': '<p>Alamat yang terbaca: <code>' + esc(u) + '</code></p><p>Bentuknya tidak dikenali. Pastikan tidak ada spasi, tanda tanya (<code>?</code>), atau teks tambahan, dan alamatnya berbentuk <code>https://script.google.com/macros/s/…/exec</code>.</p>'
+    }[r];
+    root().innerHTML = kotakPesan('gear', 'Aplikasi belum dihubungkan', sebab
+      + '<div class="alert" style="margin-top:12px">' + ic('info') + '<div>Sudah mengubah <code>config.js</code> dan mengirimnya ke GitHub? Tunggu 1–2 menit, lalu tekan <b>Ctrl+Shift+R</b> (atau buka di jendela penyamaran) karena browser menyimpan versi lama.</div></div>'
+      + '<p class="muted" style="margin-top:10px">Langkah lengkap: <b>PANDUAN-INSTALASI.md</b>, Bagian 2 dan Bagian 4.</p>');
   }
   function showFatal(e) {
     root().innerHTML = kotakPesan('alert', 'Tidak dapat membuka aplikasi', '<div class="alert bad">' + ic('alert') + '<div>' + esc(e.message) + '</div></div><p style="margin-top:12px" class="muted">Penyebab yang paling sering: URL <code>/exec</code> salah, Web App belum di-deploy untuk <b>Anyone</b>, atau <code>setupAppEnvironment()</code> belum dijalankan.</p><div class="row" style="margin-top:14px"><button class="btn btn-p" data-act="reload">' + ic('refresh') + 'Coba lagi</button></div>');

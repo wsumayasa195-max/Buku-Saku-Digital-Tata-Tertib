@@ -4,5 +4,5 @@
    Cara mendapatkannya: lihat PANDUAN-INSTALASI.md, Bagian 2.
    ============================================================ */
 window.APP_CONFIG = {
-  GAS_URL: 'window.APP_CONFIG = {
   GAS_URL: 'https://script.google.com/macros/s/AKfycbzj4E34nJGr-oa26V2mq4McGDLSMjOx-N3GJ8iRf4Y2VPw00ISaWTgeKsW0GDndi35V/exec'
+};

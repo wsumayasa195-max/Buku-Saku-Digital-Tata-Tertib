@@ -7,7 +7,19 @@
   const TOKEN_KEY = 'bs_token';
   const API = { token: sessionStorage.getItem(TOKEN_KEY) || '', onAuthLost: null, pending: {} };
 
-  API.siap = function () { return /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec/.test(String(CFG.GAS_URL || '').trim()); };
+  CFG.GAS_URL = String(CFG.GAS_URL || '').trim();
+  // Terima alamat biasa (…/macros/s/ID/exec) dan alamat akun Google Workspace (…/a/macros/DOMAIN/s/ID/exec)
+  API.siap = function () { return /^https:\/\/script\.google\.com\/[^\s?#]*\/s\/[^/\s]+\/exec\/?$/.test(CFG.GAS_URL); };
+  /** Penyebab alamat belum dipakai, untuk pesan yang jelas di layar. */
+  API.alasan = function () {
+    const u = CFG.GAS_URL;
+    if (!window.APP_CONFIG) return 'tidak-terbaca';
+    if (!u || /GANTI_DENGAN/.test(u)) return 'contoh';
+    if (!/^https:\/\//.test(u)) return 'bukan-https';
+    if (/\/dev\/?$/.test(u)) return 'dev';
+    if (!/\/exec\/?$/.test(u)) return 'bukan-exec';
+    return 'format';
+  };
   API.setToken = function (t) { API.token = t || ''; if (t) sessionStorage.setItem(TOKEN_KEY, t); else sessionStorage.removeItem(TOKEN_KEY); };
 
   function galat(pesan, kode) { const e = new Error(pesan); e.code = kode || ''; return e; }
