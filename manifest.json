@@ -1,0 +1,17 @@
+{
+  "name": "Buku Saku Digital Tata Tertib SMPN 3 Kediri",
+  "short_name": "Buku Saku",
+  "description": "Tata tertib sekolah dan catatan kedisiplinan, kapan saja di ponsel.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#F4F7FC",
+  "theme_color": "#1E40AF",
+  "lang": "id",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
